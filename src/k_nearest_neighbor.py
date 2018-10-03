@@ -26,9 +26,10 @@ class KNearestNeighbor(BaseModel) :
 
 	#=============================
 	# train()
-	#	- N/A for k-nearest-neighbor - its lazy
+	#	- Just set data for k-nearest-neighbor - its lazy
 	#=============================
-	def train(self):
+	def train(self, new_data):
+		self.data = new_data
 		return
 
 	#=============================
@@ -38,10 +39,14 @@ class KNearestNeighbor(BaseModel) :
 	#@param	point	point to find distance-from
 	#@return	 array of distances between given point and all data
 	#=============================
-	def _get_all_data_distances_to_point(self, point):
+	def _get_all_data_distances_to_point(self, data, point):
 		#Remove the classification assumed to be final column
-		data_no_class = self.data[:,:-1]
+		data_no_class = data[:,:-1]
+		#print('data_no_class')
+		#print(data_no_class)
 		point_no_class = point[:-1] 
+		#print('point_no_class')
+		#print(point_no_class)
 		# sqrt( (X1 - Y1)^2 + (X2 - Y2)^2 .... N )
 		square_of_dif = np.square(data_no_class - point_no_class)
 		sum_of_dif = np.sum(square_of_dif, axis=1)
@@ -55,10 +60,16 @@ class KNearestNeighbor(BaseModel) :
 	#@param	points	points - the closest ones
 	#@return	 closest points
 	#=============================
-	def _get_closest_points(self, distances):
+	def _get_closest_k_points(self, data, distances, k):
 		sorted_distances = distances.argsort()
-		k_point_idx = sorted_distances[:self.k_number]
-		k_points = self.data[k_point_idx]
+		#print('sorted_distances')
+		#print(sorted_distances)
+		k_point_idx = sorted_distances[:k]
+		#print('k_point_idx')
+		#print(k_point_idx)
+		k_points = data[k_point_idx]
+		#print('k_points')
+		#print(k_points)
 		return k_points
 
 	#=============================
@@ -68,7 +79,7 @@ class KNearestNeighbor(BaseModel) :
 	#@param	points	points - the closest ones
 	#@return	 classification
 	#=============================
-	def _get_classification(self, points ):
+	def _get_classification_from_points(self, points):
 		#Get the counts of every unique class
 		(class_values, class_counts) = np.unique(points[:,-1], return_counts=True)
 		#Get the maximum occurences of class and select that class
@@ -100,24 +111,27 @@ class KNearestNeighbor(BaseModel) :
 		self.tests_completed = 0
 		self.tests_correct = 0
 
-		print('test_data')
-		print(test_data)
+		#print('test_data')
+		#print(test_data)
 		#Classify every point in test data
 		for row in test_data:
 			#Remove the classificaiton from distance calc
-			print('row')
-			print(row)
-			distances  = self._get_all_data_distances_to_point(row)
-			print('distances')
-			print(distances)
+			#print('row')
+			#print(row)
+			distances  = self._get_all_data_distances_to_point(self.data, row)
+			#print('distances')
+			#print(distances)
 			#Find the closest k points (neighbors)
-			closest_k_points = self._get_closest_points(distances)
-			print('closest_k_points')
-			print(closest_k_points)
+			closest_k_points = self._get_closest_k_points(
+					self.data,
+					distances, 
+					self.k_number)
+			#print('closest_k_points')
+			#print(closest_k_points)
 			#Find the classification
-			classification = self._get_classification(closest_k_points)
-			print('classification')
-			print(classification)
+			classification = self._get_classification_from_points(closest_k_points)
+			#print('classification')
+			#print(classification)
 			#Update overall results
 			test_result = self._update_test_results(
 					row, classification)
