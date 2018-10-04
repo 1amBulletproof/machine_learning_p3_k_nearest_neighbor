@@ -5,6 +5,7 @@
 #@description	TestModel class
 
 import numpy as np
+import math as math
 import pandas as pd
 import argparse
 import operator
@@ -106,18 +107,32 @@ class KNearestNeighbor(BaseModel) :
 		return class_average
 
 	#=============================
-	# _update_test_results()
+	# _update_majority_test_results()
 	#	- update test performance
 	#
 	#@param	point	point under consideration
 	#@param	classification model calculated classification
 	#@return	 
 	#=============================
-	def _update_test_results(self, point, classification):
+	def _update_majority_test_results(self, point, classification):
 		self.tests_completed = self.tests_completed + 1
 		test_result = point[-1] == classification
 		if (test_result == True):
 			self.tests_correct = self.tests_correct + 1
+		return test_result
+
+	#=============================
+	# _update_average_test_results()
+	#	- update test performance
+	#
+	#@param	point	point under consideration
+	#@param	classification model calculated classification
+	#@return	 
+	#=============================
+	def _update_average_test_results(self, point, classification):
+		self.tests_completed = self.tests_completed + 1
+		test_result = math.pow(point[-1] - classification, 2) 
+		self.tests_square_error = self.tests_square_error + test_result
 		return test_result
 
 	#=============================
@@ -129,6 +144,7 @@ class KNearestNeighbor(BaseModel) :
 		#Reset statistics 
 		self.tests_completed = 0
 		self.tests_correct = 0
+		self.tests_square_error = 0
 
 		#print('test_data')
 		#print(test_data)
@@ -149,18 +165,30 @@ class KNearestNeighbor(BaseModel) :
 			#print(closest_k_points)
 			#Find the classification
 			if (classification_mode == "average"):
-				classification = self._get_classification_average_from_points(closest_k_points)
+				#Get average value of closest points - used for regression
+				class_average = self._get_classification_average_from_points(closest_k_points)
+				#print('classification')
+				#print(classification)
+				#Update overall results
+				test_result = self._update_average_test_results(
+						row, class_average)
 			else:
-				classification = self._get_classification_majority_from_points(closest_k_points)
-			#print('classification')
-			#print(classification)
-			#Update overall results
-			test_result = self._update_test_results(
-					row, classification)
+				#Get majority value of closest points - used for classification
+				class_majority = self._get_classification_majority_from_points(closest_k_points)
+				#print('classification')
+				#print(classification)
+				#Update overall results
+				test_result = self._update_majority_test_results(
+						row, class_majority)
 
-		#Accuracy = correct / total # tests
-		percent_correct = 100 * float(self.tests_correct / self.tests_completed)
-		return percent_correct
+		if (classification_mode == "average"):
+			#Mean Squared Error
+			result = float(self.tests_square_error / self.tests_completed);
+		else:
+			#Accuracy = correct / total # tests
+			result = 100 * float(self.tests_correct / self.tests_completed)
+
+		return result
 
 		#TODO: need mode or separate method for regression data where you simply take the average of the closest k points
 
@@ -193,11 +221,19 @@ def main():
 
 	k_nearest_neighbor = KNearestNeighbor(train_data.values, args.k_number)
 	result1 = k_nearest_neighbor.test(test_data1.values, args.mode)
-	print('Result1 Accuracy (%):') 
-	print(result1, '%')
+	if (args.mode == "average"):
+		print('Total Mean Squared Error:')
+		print(result1)
+	else:
+		print('Result1 Accuracy (%):') 
+		print(result1, '%')
 	result2 = k_nearest_neighbor.test(test_data2.values, args.mode)
-	print('Result2 Accuracy (%):') 
-	print(result2, '%')
+	if (args.mode == "average"):
+		print('Total Mean Squared Error:')
+		print(result2)
+	else:
+		print('Result1 Accuracy (%):') 
+		print(result2, '%')
 
 
 if __name__ == '__main__':
