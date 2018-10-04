@@ -110,6 +110,9 @@ def main():
 	parser.add_argument('k_number', type=int, default=1, nargs='?', help='number of total neighbors')
 	args = parser.parse_args()
 
+	#Mode is always majority...this is not used for regression
+	mode = "majority"
+
 	print()
 	print('TEST 1: dummy data')
 	print('train data (final col is class):')
@@ -123,7 +126,7 @@ def main():
 	print(test_data1)
 	print('test data2 (final col class):')
 	test_data2 = pd.DataFrame([
-		[2,4,4,4], [4,6,4,4], [8,2,8,8]])
+		[1,3,0,0], [4,5,6,4], [7,8,7,8]])
 	print(test_data2)
 	print()
 
@@ -131,10 +134,10 @@ def main():
 	condensed_knn.train(train_data.values)
 	print('condensed train data')
 	print(condensed_knn.data)
-	result1 = condensed_knn.test(test_data1.values)
+	result1 = condensed_knn.test(test_data1.values, mode)
 	print('Result1 Accuracy (%):') 
 	print(result1, '%')
-	result2 = condensed_knn.test(test_data2.values)
+	result2 = condensed_knn.test(test_data2.values, mode)
 	print('Result2 Accuracy (%):') 
 	print(result2, '%')
 

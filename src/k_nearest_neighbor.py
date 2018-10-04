@@ -73,18 +73,37 @@ class KNearestNeighbor(BaseModel) :
 		return k_points
 
 	#=============================
-	# _get_classification()
+	# _get_classification_majority_from_points()
 	#	- get the classification from the provided points
 	#
 	#@param	points	points - the closest ones
 	#@return	 classification
 	#=============================
-	def _get_classification_from_points(self, points):
+	def _get_classification_majority_from_points(self, points):
 		#Get the counts of every unique class
 		(class_values, class_counts) = np.unique(points[:,-1], return_counts=True)
 		#Get the maximum occurences of class and select that class
-		winning_class = class_values[np.argmax(class_counts)]
-		return winning_class
+		majority_class = class_values[np.argmax(class_counts)]
+		return majority_class
+
+	#=============================
+	# _get_classification_average_from_points()
+	#	- get the classification from the provided points
+	#
+	#@param	points	points - the closest ones
+	#@return	 classification
+	#=============================
+	def _get_classification_average_from_points(self, points):
+		#print('closest points')
+		#print(points)
+		#Get the final column values
+		class_values = points[:,-1]
+		#print('point class values')
+		#print(class_values)
+		class_average = np.average(class_values)
+		#print('class average')
+		#print(class_average)
+		return class_average
 
 	#=============================
 	# _update_test_results()
@@ -106,7 +125,7 @@ class KNearestNeighbor(BaseModel) :
 	#	- test test_data via k-nearest neighbor in train_data
 	#@return	accuracy as a percentage
 	#=============================
-	def test(self, test_data):
+	def test(self, test_data, classification_mode):
 		#Reset statistics 
 		self.tests_completed = 0
 		self.tests_correct = 0
@@ -129,7 +148,10 @@ class KNearestNeighbor(BaseModel) :
 			#print('closest_k_points')
 			#print(closest_k_points)
 			#Find the classification
-			classification = self._get_classification_from_points(closest_k_points)
+			if (classification_mode == "average"):
+				classification = self._get_classification_average_from_points(closest_k_points)
+			else:
+				classification = self._get_classification_majority_from_points(closest_k_points)
 			#print('classification')
 			#print(classification)
 			#Update overall results
@@ -140,6 +162,7 @@ class KNearestNeighbor(BaseModel) :
 		percent_correct = 100 * float(self.tests_correct / self.tests_completed)
 		return percent_correct
 
+		#TODO: need mode or separate method for regression data where you simply take the average of the closest k points
 
 #=============================
 # MAIN PROGRAM
@@ -148,30 +171,31 @@ def main():
 	print('Main() - testing knn model')
 	parser = argparse.ArgumentParser(description='test knn model')
 	parser.add_argument('k_number', type=int, default=1, nargs='?', help='number of total neighbors')
+	parser.add_argument('mode', type=str, default="", nargs='?', help='type of classification - "average" or "majority"')
 	args = parser.parse_args()
 
 	print()
 	print('TEST 1: dummy data')
 	print('train data (final col is class):')
 	train_data = pd.DataFrame([
-		[0,0,0,0], [1,0,0,0], [0,1,0,0], [0,0,1,0],
-		[1,1,1,1], [0,1,1,1], [1,0,1,1], [1,1,0,1],
-		[2,2,2,2], [1,2,2,2], [2,1,2,2], [2,2,1,2]])
+		[0,0,0,0], [2,0,0,0], [0,2,0,0], [0,0,2,0],
+		[4,4,4,4], [3,4,4,4], [4,3,4,4], [4,4,3,4],
+		[8,8,8,8], [6,8,8,8], [8,6,8,8], [8,8,6,8]])
 	print(train_data)
 	print('test data1 (final col class):')
 	test_data1 = pd.DataFrame([[0,0,0,0]])
 	print(test_data1)
 	print('test data2 (final col class):')
 	test_data2 = pd.DataFrame([
-		[0,1,1,1], [1,2,1,1], [2,0,2,2]])
+		[1,0,3,0], [5,4,3,4], [7,6,7,8]])
 	print(test_data2)
 	print()
 
 	k_nearest_neighbor = KNearestNeighbor(train_data.values, args.k_number)
-	result1 = k_nearest_neighbor.test(test_data1.values)
+	result1 = k_nearest_neighbor.test(test_data1.values, args.mode)
 	print('Result1 Accuracy (%):') 
 	print(result1, '%')
-	result2 = k_nearest_neighbor.test(test_data2.values)
+	result2 = k_nearest_neighbor.test(test_data2.values, args.mode)
 	print('Result2 Accuracy (%):') 
 	print(result2, '%')
 
