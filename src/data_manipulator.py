@@ -33,9 +33,6 @@ class DataManipulator:
 	#=============================
 	@staticmethod
 	def expand_attributes_to_binary_values(data, col_idx, num_bins):
-		#print('LOG: expand_attributes_to_binary_values() START')
-		#print('Input data')
-		#print(data)
 		modified_data = list(data)
 		modified_data = copy.deepcopy(data)
 		length_of_vector = len(data[0])
@@ -48,23 +45,13 @@ class DataManipulator:
 		for row in modified_data:
 			row_val = row[col_idx]
 			binary_category_values = DataManipulator._convert_bin_val_into_binary_vector(row_val, num_bins)
-			#print('binary_cateogory_vals')
-			#print(binary_category_values)
 
 			insert_idx = col_idx
 			#replace previous value
-
-			#print('row before modify')
-			#print(modified_data[row_idx])
 			modified_data[row_idx][insert_idx:(insert_idx+1)] = binary_category_values
-			#print('row after modify')
-			#print(modified_data[row_idx])
 
 			row_idx += 1
 
-		#print('Output data')
-		#print(modified_data)
-		#print('LOG: expand_attributes_to_binary_values() START')
 		return modified_data
 
 	#=============================
@@ -80,6 +67,27 @@ class DataManipulator:
 		bin_vals = [0 for val in range(num_bins)]
 		bin_vals[int(val)] = 1
 		return bin_vals
+
+	#=============================
+	# MOVE_NP_COLUMN_TO_END()
+	#
+	#	- mv given column to be the last column in numpy 2D matrix
+	#	- returns a new numpy 2D array (i.e. creates one from scratch, doesn't modify input)
+	#
+	#@param data		numpy 2D numpy data array
+	#@param col	column to move to the last column
+	#@return			modified data as numpy matrix
+	#=============================
+	@staticmethod
+	def move_column_to_end(data, col):
+		#Get the num cols as list 0...len(col)
+		col_list = list(range(0,data.shape[1]))
+		#REMOVE 'col' from the list
+		col_list.remove(col)
+		#Append 'col' to the end of the list
+		col_list.append(col)
+		numpy_result = data[:,col_list] 
+		#sorting_permutation = np.argsort(
 
 	#=============================
 	# MOVE_COLUMN_TO_END()
@@ -170,7 +178,7 @@ class DataManipulator:
 	#
 	#@param data		input data as data frame
 	#@param number_of_splits	number of groups returned
-	#@return			list(data_set1, data_set2, ... data_set_number_of_splits)
+	#@return			list numpy 2d arrays (data_set1, ... data_set_number_of_splits)
 	#=============================
 	@staticmethod
 	def split_data_randomly(data, number_of_splits=5):
@@ -192,7 +200,7 @@ class DataManipulator:
 		for group_idx in range(number_of_splits):
 			numpy_groups.append(
 					data_copy[prev_cuttoff:prev_cuttoff+rows_per_group])
-			prev_cuttoff = prev_cuttoff + rows_per_group
+			prev_cuttoff = prev_cuttoff + rows_per_group 
 
 		return numpy_groups
 
@@ -206,7 +214,7 @@ class DataManipulator:
 	#
 	#@param data		input data as data frame
 	#@param number_of_splits	number of groups returned
-	#@return			list(data_set1, data_set2, ... data_set_number_of_splits)
+	#@return			list numpy 2d arrays (data_set1, ... data_set_number_of_splits)
 	#=============================
 	@staticmethod
 	def split_data_randomly_accounting_for_class(data, number_of_splits=5):
@@ -241,9 +249,17 @@ class DataManipulator:
 		'''
 			
 		#Sort the data by class and transform to numpy 2darray
+		#print('og data')
+		#print(data)
+		cols = data.columns
+		#print('cols')
+		#print(cols)
+		final_col = data.columns.values[-1]
+		#print('final_col')
+		#print(final_col)
 		data_copy = data.sort_values(by=[data.columns.values[-1]]).values
-		print('data_copy')
-		print(data_copy)
+		#print('sorted data ')
+		#print(data_copy)
 
 		#make array of range 1 - number_of_splits
 		group_ids = list(range(0, number_of_splits))

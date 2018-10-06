@@ -105,8 +105,8 @@ class CondensedKNearestNeighbor(KNearestNeighbor) :
 # MAIN PROGRAM
 #=============================
 def main():
-	print('Main() - testing knn model')
-	parser = argparse.ArgumentParser(description='test knn model')
+	print('Main() - testing condensed knn model')
+	parser = argparse.ArgumentParser(description='test condensed knn model')
 	parser.add_argument('k_number', type=int, default=1, nargs='?', help='number of total neighbors')
 	args = parser.parse_args()
 

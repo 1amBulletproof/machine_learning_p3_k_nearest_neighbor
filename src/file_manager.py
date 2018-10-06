@@ -50,9 +50,9 @@ class FileManager:
 	#@return	ndarray
 	#=============================
 	@staticmethod
-	def get_csv_file_data_numpy(file_name):
+	def get_csv_file_data_numpy(file_name, separator):
 		#print('LOG: get_csv_file_data_numpy() START')
-		all_data = np.genfromtxt(file_name, dtype=str)
+		all_data = np.genfromtxt(file_name, dtype=str, delimiter=separator)
 		#print(all_data)
 		#print('LOG: get_csv_file_data_numpy() END')
 		return all_data
@@ -65,10 +65,10 @@ class FileManager:
 	#@return	pandas structure
 	#=============================
 	@staticmethod
-	def get_csv_file_data_pandas(file_name):
+	def get_csv_file_data_pandas(file_name, separator=','):
 		#print('LOG: get_csv_file_data_pandas() START')
 
-		all_data = pd.read_csv(file_name, sep=',', header=None)
+		all_data = pd.read_csv(file_name, sep=separator, header=None)
 		#print(all_data.values)
 		#print('LOG: get_csv_file_data_pandas() END')
 		return all_data
