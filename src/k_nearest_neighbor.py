@@ -2,7 +2,7 @@
 
 #@author		Brandon Tarney
 #@date			9/30/2018
-#@description	TestModel class
+#@description	KNearestNeighbor class
 
 import numpy as np
 import math as math
