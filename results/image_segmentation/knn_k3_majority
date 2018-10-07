@@ -12,7 +12,7 @@ train_data, group  0 length:  168
     6.        ]
  [208.         240.           9.         ...   0.42162097   2.3924873
     6.        ]]
-condensed KNN train data length 53
+KNN train data length 168
 test_data, group  0 length: 42
 [[ 1.21000000e+02  1.13000000e+02  9.00000000e+00  0.00000000e+00
    0.00000000e+00  1.72222200e+00  1.52963030e+00  2.94444400e+00
@@ -226,7 +226,7 @@ test_data, group  0 length: 42
    1.75555550e+01  4.45418030e-01  1.83884970e+00  6.00000000e+00]]
 
 result of iteration 0
-73.80952380952381
+85.71428571428571
 
 train_data, group  1 length:  168
 [[121.         113.           9.         ...   0.39658895  -1.5856091
@@ -242,7 +242,7 @@ train_data, group  1 length:  168
     6.        ]
  [208.         240.           9.         ...   0.42162097   2.3924873
     6.        ]]
-condensed KNN train data length 55
+KNN train data length 168
 test_data, group  1 length: 42
 [[ 1.38000000e+02  1.33000000e+02  9.00000000e+00  0.00000000e+00
    0.00000000e+00  6.66666700e-01  4.44444330e-01  1.16666660e+00
@@ -456,7 +456,7 @@ test_data, group  1 length: 42
    2.83333340e+01  3.89034060e-01  2.86493060e+00  6.00000000e+00]]
 
 result of iteration 1
-66.66666666666666
+71.42857142857143
 
 train_data, group  2 length:  168
 [[121.         113.           9.         ...   0.39658895  -1.5856091
@@ -472,7 +472,7 @@ train_data, group  2 length:  168
     6.        ]
  [208.         240.           9.         ...   0.42162097   2.3924873
     6.        ]]
-condensed KNN train data length 56
+KNN train data length 168
 test_data, group  2 length: 42
 [[ 9.50000000e+01  5.70000000e+01  9.00000000e+00  0.00000000e+00
    0.00000000e+00  1.83333270e+00  3.41111060e+00  2.11111070e+00
@@ -702,7 +702,7 @@ train_data, group  3 length:  168
     6.        ]
  [208.         240.           9.         ...   0.42162097   2.3924873
     6.        ]]
-condensed KNN train data length 57
+KNN train data length 168
 test_data, group  3 length: 42
 [[ 1.80000000e+01  1.38000000e+02  9.00000000e+00  0.00000000e+00
    0.00000000e+00  8.88888840e-01  5.62962900e-01  8.33333250e-01
@@ -932,7 +932,7 @@ train_data, group  4 length:  168
     6.        ]
  [ 71.         180.           9.         ...   0.3273826    2.4538307
     6.        ]]
-condensed KNN train data length 57
+KNN train data length 168
 test_data, group  4 length: 42
 [[ 1.40000000e+02  1.25000000e+02  9.00000000e+00  0.00000000e+00
    0.00000000e+00  2.77777900e-01  6.29630100e-02  6.66666750e-01
@@ -1146,11 +1146,11 @@ test_data, group  4 length: 42
    1.85555550e+01  4.21620970e-01  2.39248730e+00  6.00000000e+00]]
 
 result of iteration 4
-73.80952380952381
+66.66666666666666
 
 
 final average result:
-74.76190476190476
+76.66666666666666
 
 Average Accuracy (%):
-74.76190476190476 %
+76.66666666666666 %

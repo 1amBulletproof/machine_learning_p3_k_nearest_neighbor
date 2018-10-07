@@ -50,7 +50,7 @@ class FileManager:
 	#@return	ndarray
 	#=============================
 	@staticmethod
-	def get_csv_file_data_numpy(file_name, separator):
+	def get_csv_file_data_numpy(file_name, separator=','):
 		#print('LOG: get_csv_file_data_numpy() START')
 		all_data = np.genfromtxt(file_name, dtype=str, delimiter=separator)
 		#print(all_data)
