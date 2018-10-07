@@ -17,15 +17,20 @@ def main():
 
 	parser = argparse.ArgumentParser(description='Remove the final column')
 	parser.add_argument('file_path_in', type=str, help='full path to input file')
-	parser.add_argument('column', type=int, help='the column to remove')
 	parser.add_argument('file_path_out', type=str, help='full path to output file')
+	parser.add_argument('columns', nargs='+', type=int, help='the columns to remove')
 	args = parser.parse_args()
+	columns = args.columns
+	columns = sorted(columns, reverse=True)
+	print('deleting these columns in this order')
+	print(columns)
 
 	data = FileManager.get_csv_file_data_numpy(args.file_path_in, ',')
-	data_no_col = np.delete(data, args.column, axis=1)
-	data_as_nums = data_no_col.astype(np.float)
+	for column in columns:
+		data = np.delete(data, column, axis=1)
+	data_as_numbers = data.astype(np.float)
 
-	np.savetxt(args.file_path_out, data_as_nums, delimiter=',')
+	np.savetxt(args.file_path_out, data_as_numbers, delimiter=',')
 
 	'''
 	#INPUTS

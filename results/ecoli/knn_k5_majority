@@ -78,7 +78,7 @@ test_data, group  0 length: 68
  [0.74 0.74 0.48 0.5  0.31 0.53 0.52 7.  ]]
 
 result of iteration 0
-80.88235294117648
+88.23529411764706
 
 train_data, group  1 length:  269
 [[0.31 0.47 0.48 ... 0.28 0.39 0.  ]
@@ -159,7 +159,7 @@ test_data, group  1 length: 67
  [0.68 0.78 0.48 0.5  0.43 0.44 0.42 7.  ]]
 
 result of iteration 1
-77.61194029850746
+86.56716417910447
 
 train_data, group  2 length:  269
 [[0.31 0.47 0.48 ... 0.28 0.39 0.  ]
@@ -240,7 +240,7 @@ test_data, group  2 length: 67
  [0.63 0.71 0.48 0.5  0.6  0.4  0.39 7.  ]]
 
 result of iteration 2
-79.1044776119403
+80.59701492537313
 
 train_data, group  3 length:  269
 [[0.31 0.47 0.48 ... 0.28 0.39 0.  ]
@@ -321,7 +321,7 @@ test_data, group  3 length: 67
  [0.63 0.86 0.48 0.5  0.39 0.47 0.34 7.  ]]
 
 result of iteration 3
-79.1044776119403
+83.5820895522388
 
 train_data, group  4 length:  269
 [[0.31 0.47 0.48 ... 0.28 0.39 0.  ]
@@ -402,11 +402,11 @@ test_data, group  4 length: 67
  [0.63 0.83 0.48 0.5  0.4  0.39 0.19 7.  ]]
 
 result of iteration 4
-83.5820895522388
+88.05970149253731
 
 
 final average result:
-80.05706760316068
+85.40825285338016
 
 Average Accuracy (%):
-80.05706760316068 %
+85.40825285338016 %

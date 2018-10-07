@@ -79,15 +79,15 @@ class DataManipulator:
 	#@return			modified data as numpy matrix
 	#=============================
 	@staticmethod
-	def move_column_to_end(data, col):
+	def move_np_column_to_end(data, col):
 		#Get the num cols as list 0...len(col)
 		col_list = list(range(0,data.shape[1]))
 		#REMOVE 'col' from the list
 		col_list.remove(col)
 		#Append 'col' to the end of the list
 		col_list.append(col)
-		numpy_result = data[:,col_list] 
-		#sorting_permutation = np.argsort(
+		numpy_result = data[:,col_list]
+		return numpy_result
 
 	#=============================
 	# MOVE_COLUMN_TO_END()

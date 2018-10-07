@@ -106,13 +106,13 @@ def main():
 			args.model_name, args.knn_mode, args.k_number)
 	if (args.model_name == 'knn'):
 		if (args.knn_mode == 'majority'):
-			print('Total Accuracy (%):') 
+			print('Average Accuracy (%):') 
 			print(final_result, '%')
 		else:
-			print('Total Mean Squared Error:')
+			print('Average Mean Squared Error:')
 			print(final_result)
 	else:
-		print('Total Accuracy (%):') 
+		print('Average Accuracy (%):') 
 		print(final_result, '%')
 
 

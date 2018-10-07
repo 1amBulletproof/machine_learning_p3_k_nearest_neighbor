@@ -131,6 +131,7 @@ class KNearestNeighbor(BaseModel) :
 	#=============================
 	def _update_average_test_results(self, point, classification):
 		self.tests_completed = self.tests_completed + 1
+		#print('average of k points: ', classification, ' actual val: ', point)
 		test_result = math.pow(point[-1] - classification, 2) 
 		self.tests_square_error = self.tests_square_error + test_result
 		return test_result
@@ -167,8 +168,8 @@ class KNearestNeighbor(BaseModel) :
 			if (classification_mode == "average"):
 				#Get average value of closest points - used for regression
 				class_average = self._get_classification_average_from_points(closest_k_points)
-				#print('classification')
-				#print(classification)
+				#print('class_average')
+				#print(class_average)
 				#Update overall results
 				test_result = self._update_average_test_results(
 						row, class_average)
